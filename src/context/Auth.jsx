@@ -16,10 +16,20 @@ function AuthProvider({ children }) {
         });
     }, []);
 
+    const logout = async () => {
+        try {
+            await logoutUser(); 
+            setAuthenticated(false); 
+            setUser(null); 
+        } catch (error) {
+            console.error("Logout error:", error);
+        }
+    };
+
     if (loading) return <div>Loading...</div>;
 
     return (
-        <AuthContext.Provider value={{ authenticated, setAuthenticated, user, logoutUser }}>
+        <AuthContext.Provider value={{ authenticated, setAuthenticated, user, logout }}>
             {children}
         </AuthContext.Provider>
     );
