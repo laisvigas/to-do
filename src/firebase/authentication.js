@@ -1,17 +1,17 @@
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { auth } from './firebase'; 
+import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
+import app from "./firebase.config";
 
-const googleProvider = new GoogleAuthProvider();
+const auth = getAuth(app);  
 
 async function registerUser(email, password) {
     const credential = await createUserWithEmailAndPassword(auth, email, password);
     return credential.user;
-};
+}
 
 async function loginUser(email, password) {
     const credential = await signInWithEmailAndPassword(auth, email, password);
     return credential.user;
-};
+}
 
 async function loginWithGoogle() {
     const provider = new GoogleAuthProvider();
@@ -20,7 +20,11 @@ async function loginWithGoogle() {
 }
 
 async function logoutUser() {
-    await signOut(auth);
+    await signOut(auth); 
 }
 
-export { registerUser, loginUser, loginWithGoogle, logoutUser }
+async function loggedUser(switchUser) {
+    onAuthStateChanged(auth, switchUser);
+}
+
+export { registerUser, loginUser, loginWithGoogle, logoutUser, loggedUser };
