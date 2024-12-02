@@ -5,21 +5,20 @@ const db = getFirestore(app);
 
 async function saveTask(data) {
     const tasks = collection(db, "to-do");
-    await addDoc(tasks, data);
-    console.log("Task created.");
-}
+    const docRef = await addDoc(tasks, data);
+    return { id: docRef.id, ...data };
+  }
+  
 
-async function getTasks() {
+  async function getTasks() {
     const tasks = collection(db, "to-do");
     const querySnapshot = await getDocs(tasks);
-    const items = [];
-    querySnapshot.forEach(doc => {
-        const task = doc.data();
-        task.id = doc.id;
-        items.push(task);
-    });
-    return items;
+    return querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+    }));
 }
+
 
 async function deleteTask(id) {
     const tasks = collection(db, "to-do");
@@ -27,10 +26,10 @@ async function deleteTask(id) {
     await deleteDoc(document);
 }
 
-async function updateTask(id, data) {
+async function updateTask(id, updateData) {
     const tasks = collection(db, "to-do");
     const document = doc(tasks, id);
-    await updateDoc(document, data);
+    await updateDoc(document, updateData);
 }
 
 async function getTaskById(id) {
