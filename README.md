@@ -1,8 +1,30 @@
-# React + Vite
+# Task Management Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Objective  
+Create a task management application using React and Firebase to handle backend data.
 
-Currently, two official plugins are available:
+## Features  
+- **User Authentication**:  
+  Login and logout functionality with Firebase Authentication (via email/password or Google).  
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Task CRUD Operations**:  
+  Create, read, update, and delete tasks stored in Firestore.  
+
+- **Task Management**:  
+  Each task includes the following attributes:  
+  - Title  
+  - Description  
+  - Status (Pending/Completed)  
+  - Optional due date  
+
+## Interface  
+The user interface is designed using React-Bootstrap to provide a clean and functional layout.
+
+## Technologies Used  
+- **React**: For building the user interface.  
+- **React Hook Form**: For managing form inputs and validation.  
+- **React Router Dom**: For navigation between pages.  
+- **React-Bootstrap**: For styling and responsive design.  
+- **Firebase**: Backend services, including:  
+  - **Firestore**: To store and manage tasks.  
+  - **Authentication**: For secure user login/logout.
