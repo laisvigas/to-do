@@ -3,6 +3,7 @@ import { loginUser, loginWithGoogle } from "../../firebase/authentication";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/Auth";
 import { Button, Container, Row, Col, Form, Alert } from "react-bootstrap";
+import Header from "../../components/Header/Header";
 
 function Login() {
     const { handleSubmit, register, formState: { errors } } = useForm();
@@ -36,8 +37,9 @@ function Login() {
     }
 
     return (
-        <Container className="d-flex justify-content-center align-items-center vh-100">
-            <Row className="w-100">
+        <Container className="d-flex flex-column justify-content-center align-items-center vh-100">
+            <Header /> 
+            <Row className="w-100 mt-4"> 
                 <Col md={6} lg={4} className="mx-auto">
                     <div className="card p-4 shadow-sm">
                         <h2 className="text-center mb-4">Login</h2>
@@ -91,6 +93,7 @@ function Login() {
 
                             <div className="text-center">
                                 <p>Don't have an account? <a href="/signup">Sign Up</a></p>
+                                <p><a href="/">Go to Home</a></p> 
                             </div>
                         </form>
                     </div>

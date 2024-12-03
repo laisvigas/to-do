@@ -3,6 +3,7 @@ import { saveTask } from "../../firebase/firestore";
 import { registerUser } from "../../firebase/authentication"; 
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Row, Col, Form, Alert } from "react-bootstrap";
+import Header from "../../components/Header/Header";
 
 function Signup() {
   const { handleSubmit, register, formState: { errors } } = useForm();
@@ -13,7 +14,7 @@ function Signup() {
       const user = await registerUser(email, password); 
 
       await saveTask({ 
-        email, password, name,
+        email, name,
         authId: user.uid,
       });
 
@@ -25,8 +26,9 @@ function Signup() {
   }
 
   return (
-    <Container className="d-flex justify-content-center align-items-center vh-100">
-      <Row className="w-100">
+    <Container className="d-flex flex-column justify-content-center align-items-center vh-100">
+      <Header /> 
+      <Row className="w-100 mt-4"> 
         <Col md={6} lg={4} className="mx-auto">
           <div className="card p-4 shadow-sm">
             <h2 className="text-center mb-4">Sign Up</h2>
@@ -84,6 +86,7 @@ function Signup() {
 
               <div className="text-center">
                 <p>Already have an account? <a href="/login">Login</a></p>
+                <p><a href="/">Go to Home</a></p> 
               </div>
             </form>
           </div>

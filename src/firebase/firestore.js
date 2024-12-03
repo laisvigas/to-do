@@ -3,20 +3,39 @@ import app from "./firebase.config";
 
 const db = getFirestore(app);
 
-async function saveTask(data) {
-    const tasks = collection(db, "to-do");
-    const docRef = await addDoc(tasks, data);
-    return { id: docRef.id, ...data };
-  }
-  
+import { getAuth } from "firebase/auth";
 
-  async function getTasks() {
+async function saveTask(data) {
+    const auth = getAuth(); 
+    const user = auth.currentUser; 
+    if (!user) {
+        throw new Error("No user is logged in.");
+    }
+
+    const tasks = collection(db, "to-do");
+    const taskWithUser = {
+        ...data,
+        uid: user.uid, 
+    };
+    const docRef = await addDoc(tasks, taskWithUser);
+    return { id: docRef.id, ...taskWithUser };
+}
+
+async function getTasks() {
+    const auth = getAuth(); 
+    const user = auth.currentUser; 
+    if (!user) {
+        throw new Error("No user is logged in.");
+    }
+
     const tasks = collection(db, "to-do");
     const querySnapshot = await getDocs(tasks);
-    return querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-    }));
+    return querySnapshot.docs
+        .map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+        }))
+        .filter((task) => task.uid === user.uid);
 }
 
 
