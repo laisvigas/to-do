@@ -1,11 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Container, Row, Col, Card } from 'react-bootstrap';
-import { useAuth } from '../../context/Auth';
-import { useNavigate } from 'react-router-dom';
-import TaskForm from '../../components/TaskForm/TaskForm';
-import TaskList from '../../components/TaskList/TaskList';
-import { saveTask, getTasks, updateTask, deleteTask } from '../../firebase/firestore';
-import { Timestamp } from 'firebase/firestore';
+import React, { useState, useEffect } from "react";
+import { Button, Container, Row, Col, Card } from "react-bootstrap";
+import { useAuth } from "../../context/Auth";
+import { useNavigate } from "react-router-dom";
+import TaskForm from "../../components/TaskForm/TaskForm";
+import TaskList from "../../components/TaskList/TaskList";
+import {
+  saveTask,
+  getTasks,
+  updateTask,
+  deleteTask,
+} from "../../firebase/firestore";
+import { Timestamp } from "firebase/firestore";
 
 function Home() {
   const { authenticated, logout } = useAuth();
@@ -37,7 +42,9 @@ function Home() {
   const handleEditTask = (task) => {
     setCurrentTask({
       ...task,
-      dueDate: task.dueDate.toDate ? task.dueDate.toDate() : new Date(task.dueDate),
+      dueDate: task.dueDate.toDate
+        ? task.dueDate.toDate()
+        : new Date(task.dueDate),
     });
     setIsEditing(true);
   };
@@ -65,17 +72,24 @@ function Home() {
   const handleLogout = async () => {
     try {
       await logout();
-      navigate('/');
+      navigate("/");
     } catch (error) {
-      console.error('Error during logout:', error);
+      console.error("Error during logout:", error);
     }
   };
 
   return (
-    <Container fluid className="min-vh-100 d-flex flex-column" style={{ paddingBottom: '10px' }}>
+    <Container
+      fluid
+      className="min-vh-100 d-flex flex-column"
+      style={{ paddingBottom: "10px" }}
+    >
       {authenticated ? (
         <>
-          <Row className="mb-2 d-flex justify-content-center align-items-center text-center" style={{ marginTop: '5vh' }}>
+          <Row
+            className="mb-2 d-flex justify-content-center align-items-center text-center"
+            style={{ marginTop: "5vh" }}
+          >
             <Col>
               <h1>To-Do, or not To-Do</h1>
               <p className="fst-italic mb-1">That's the question!</p>
@@ -90,9 +104,12 @@ function Home() {
             </Col>
           </Row>
 
-          <Row className="flex-grow-1 d-flex justify-content-center align-items-center">
-            <Col md={5} lg={4} className="d-flex justify-content-center mb-3 mb-md-0">
-              <Card className="w-100" style={{ height: '80vh' }}>
+          <Row className="flex-grow-1 d-flex justify-content-center align-items-start">
+            <Col
+              xs={12} sm={12} md={6} lg={5}
+              className="d-flex justify-content-center mb-3 mb-md-0"
+            >
+              <Card className="w-100" style={{ minHeight: "60vh" }}>
                 <Card.Body className="d-flex justify-content-center align-items-center">
                   <div className="w-100">
                     <TaskForm
@@ -105,14 +122,21 @@ function Home() {
               </Card>
             </Col>
 
-            <Col md={5} lg={7} className="d-flex justify-content-center">
-              <Card className="w-100" style={{ height: '80vh' }}>
-                <Card.Body className="overflow-auto" style={{ maxHeight: '80vh' }}>
-                  <TaskList
-                    tasks={tasks}
-                    onEdit={handleEditTask}
-                    onDelete={handleDeleteTask}
-                  />
+            <Col xs={12} sm={12} md={6} lg={7} className="d-flex justify-content-center">
+              <Card className="w-100" style={{ minHeight: "60vh" }}>
+                <Card.Body
+                  className="overflow-auto"
+                  style={{ maxHeight: "60vh" }}
+                >
+                  {tasks.length > 0 ? (
+                    <TaskList
+                      tasks={tasks}
+                      onEdit={handleEditTask}
+                      onDelete={handleDeleteTask}
+                    />
+                  ) : (
+                    <p className="text-center text-muted">No tasks yet. Use the gray box to add or edit you to-dos!</p>
+                  )}
                 </Card.Body>
               </Card>
             </Col>

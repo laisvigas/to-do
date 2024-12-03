@@ -1,28 +1,41 @@
 import { useForm } from "react-hook-form";
 import { saveTask } from "../../firebase/firestore"; 
-import { registerUser } from "../../firebase/authentication"; 
+import { registerUser, loginUser } from "../../firebase/authentication"; 
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Row, Col, Form, Alert } from "react-bootstrap";
 import Header from "../../components/Header/Header";
+import { collection, addDoc, getFirestore } from "firebase/firestore";
+
+const db = getFirestore(); 
 
 function Signup() {
   const { handleSubmit, register, formState: { errors } } = useForm();
   const navigate = useNavigate();
 
+ 
   async function saveUser({ email, password, name }) { 
     try {
       const user = await registerUser(email, password); 
-
-      await saveTask({ 
-        email, name,
-        authId: user.uid,
-      });
-
-      navigate("/login");
+  
+      await saveUserDetails(user.uid, { email, name });
+  
+      await loginUser(email, password);  
+  
+      navigate("/"); 
     } catch (error) {
       window.alert(error.message || "Something went wrong.");
       console.error(error);
     }
+  }
+  
+
+  async function saveUserDetails(uid, { email, name }) {
+    const usersCollection = collection(db, "users");
+    await addDoc(usersCollection, {
+        uid,
+        email,
+        name,
+    });
   }
 
   return (

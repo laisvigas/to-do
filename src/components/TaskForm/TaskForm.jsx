@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import { Form, Button } from "react-bootstrap";
 
 function TaskForm({ onSubmit, task, isEditing }) {
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    dueDate: '',
+    title: "",
+    description: "",
+    dueDate: "",
     status: false,
   });
 
@@ -14,18 +14,19 @@ function TaskForm({ onSubmit, task, isEditing }) {
       setFormData({
         title: task.title,
         description: task.description,
-        dueDate: task.dueDate instanceof Date
-          ? task.dueDate.toISOString().slice(0, 16)
-          : task.dueDate.toDate
-          ? task.dueDate.toDate().toISOString().slice(0, 16)
-          : task.dueDate,
+        dueDate:
+          task.dueDate instanceof Date
+            ? task.dueDate.toISOString().slice(0, 16)
+            : task.dueDate.toDate
+            ? task.dueDate.toDate().toISOString().slice(0, 16)
+            : task.dueDate,
         status: task.status,
       });
     } else {
       setFormData({
-        title: '',
-        description: '',
-        dueDate: '',
+        title: "",
+        description: "",
+        dueDate: "",
         status: false,
       });
     }
@@ -35,7 +36,7 @@ function TaskForm({ onSubmit, task, isEditing }) {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
@@ -43,16 +44,22 @@ function TaskForm({ onSubmit, task, isEditing }) {
     e.preventDefault();
     onSubmit(formData);
     setFormData({
-      title: '',
-      description: '',
-      dueDate: '',
+      title: "",
+      description: "",
+      dueDate: "",
       status: false,
     });
   };
 
   return (
-    <Form onSubmit={handleSubmit} className="p-3 border rounded"  style={{ height: '70vh' }}>
-      <h3 className="text-center mb-4">{isEditing ? 'Edit Task' : 'Add Task'}</h3>
+    <Form
+      onSubmit={handleSubmit}
+      className="p-3 border rounded"
+      style={{ backgroundColor: "#f0f0f0" }}
+    >
+      <h3 className="text-center mb-4">
+        {isEditing ? "Edit Task" : "Add Task"}
+      </h3>
 
       <Form.Group className="mb-3">
         <Form.Label>Title</Form.Label>
@@ -62,6 +69,7 @@ function TaskForm({ onSubmit, task, isEditing }) {
           value={formData.title}
           onChange={handleChange}
           required
+          className="w-100"
         />
       </Form.Group>
 
@@ -73,6 +81,8 @@ function TaskForm({ onSubmit, task, isEditing }) {
           value={formData.description}
           onChange={handleChange}
           required
+          style={{ maxHeight: "60px", resize: "vertical" }}
+          className="w-100"
         />
       </Form.Group>
 
@@ -84,6 +94,7 @@ function TaskForm({ onSubmit, task, isEditing }) {
           value={formData.dueDate}
           onChange={handleChange}
           required
+          className="w-100"
         />
       </Form.Group>
 
@@ -98,7 +109,7 @@ function TaskForm({ onSubmit, task, isEditing }) {
       </Form.Group>
 
       <Button type="submit" variant="primary" className="w-100">
-        {isEditing ? 'Update Task' : 'Add Task'}
+        {isEditing ? "Update Task" : "Add Task"}
       </Button>
     </Form>
   );
