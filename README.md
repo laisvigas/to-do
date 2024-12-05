@@ -1,7 +1,7 @@
 # Task Management Application
 
 ## Objective  
-Create a task management application using React and Firebase to handle backend data.
+Creation of a task management application using React and Firebase to handle backend data.
 
 ## Features  
 - **User Authentication**:  
